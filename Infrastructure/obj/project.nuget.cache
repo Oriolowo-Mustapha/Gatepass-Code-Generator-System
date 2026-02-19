@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "e0XeoTv4wlo=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\MUSTAPHA\\source\\repos\\Gatepass Code Generation System\\Infrastructure\\Infrastructure.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\MUSTAPHA\\.nuget\\packages\\newid\\4.0.1\\newid.4.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

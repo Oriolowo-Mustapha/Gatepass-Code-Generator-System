@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "qnjoDvgJiH8=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\MUSTAPHA\\source\\repos\\Gatepass Code Generation System\\Gatepass Code Generator System\\Gatepass Code Generator System.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\MUSTAPHA\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.3\\microsoft.aspnetcore.openapi.10.0.3.nupkg.sha512",
+    "C:\\Users\\MUSTAPHA\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\MUSTAPHA\\.nuget\\packages\\newid\\4.0.1\\newid.4.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

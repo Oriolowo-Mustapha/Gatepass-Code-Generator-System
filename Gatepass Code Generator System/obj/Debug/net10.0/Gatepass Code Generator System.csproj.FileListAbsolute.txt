@@ -1,0 +1,40 @@
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\appsettings.Development.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\appsettings.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Gatepass Code Generator System.staticwebassets.endpoints.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Gatepass Code Generator System.exe
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Gatepass Code Generator System.deps.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Gatepass Code Generator System.runtimeconfig.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Gatepass Code Generator System.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Gatepass Code Generator System.pdb
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Microsoft.OpenApi.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Application.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Domain.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Infrastructure.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Application.pdb
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Infrastructure.pdb
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\bin\Debug\net10.0\Domain.pdb
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.csproj.AssemblyReference.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.AssemblyInfoInputs.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.AssemblyInfo.cs
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.csproj.CoreCompileInputs.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\rjimswa.dswa.cache.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\scopedcss\bundle\Gatepass Code Generator System.styles.css
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\staticwebassets.build.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\staticwebassets.build.json.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\staticwebassets.development.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\staticwebassets.build.endpoints.json
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass.5A8C45B0.Up2Date
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\refint\Gatepass Code Generator System.dll
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.pdb
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\Gatepass Code Generator System.genruntimeconfig.cache
+C:\Users\MUSTAPHA\source\repos\Gatepass Code Generation System\Gatepass Code Generator System\obj\Debug\net10.0\ref\Gatepass Code Generator System.dll
