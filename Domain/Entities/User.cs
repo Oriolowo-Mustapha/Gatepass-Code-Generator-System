@@ -12,10 +12,11 @@ namespace Domain.Entities
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public Guid RoleId { get; set; }
+        public Role? Role { get; set; }
         public string PhoneNumber { get; set; } = string.Empty;
-        public bool isActive { get; set; } = true;
+        public bool IsActive { get; set; } = true;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime LastLoginDate { get; set; }
+        public DateTime? LastLoginDate { get; set; }
         public string RefreshToken { get; set; } = string.Empty;
         public DateTime RefreshTokenExpiryTime { get; set; }
     }

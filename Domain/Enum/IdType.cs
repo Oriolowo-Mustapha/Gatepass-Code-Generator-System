@@ -6,7 +6,12 @@ namespace Domain.Enum
 {
     public enum IdType
     {
-        Passport = 0,
-        NationalId = 1,
+        None = 0,
+        NationalID = 1,
+        DriversLicense = 2,
+        Passport = 3,
+        VotersCard = 4,
+        SchoolID = 5,
+        WorkID = 6
     }
 }

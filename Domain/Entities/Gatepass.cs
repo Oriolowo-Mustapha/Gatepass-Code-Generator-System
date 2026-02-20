@@ -14,9 +14,12 @@ namespace Domain.Entities
         public DateTime IssueDate { get; set; }
         public DateTime ValidFrom { get; set; }
         public DateTime ValidUntil { get; set; }
+
         public string AccessPoints { get; set; } = string.Empty;
-        public bool isActive { get; set; }
-        public bool isRevoked { get; set; }
+
+        public bool IsActive { get; set; }
+        public bool IsRevoked { get; set; }
+        public Guid? RevokedById { get; set; }
         public User? RevokedBy { get; set; }
         public DateTime? RevokedDate { get; set; }
         public string? RevokedReason { get; set; }
