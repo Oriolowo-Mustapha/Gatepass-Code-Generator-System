@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+
+namespace Domain.Entities
+{
+    public class Gatepass : BaseEntity
+    {
+        public Guid RequestId { get; set; }
+        public GatepassRequest GatepassRequest { get; set; } = new GatepassRequest();
+        public string UniqueCode { get; set; } = string.Empty;
+        public string QRCodeImage { get; set; } = string.Empty;
+        public DateTime IssueDate { get; set; }
+        public DateTime ValidFrom { get; set; }
+        public DateTime ValidUntil { get; set; }
+        public string AccessPoints { get; set; } = string.Empty;
+        public bool isActive { get; set; }
+        public bool isRevoked { get; set; }
+        public User? RevokedBy { get; set; }
+        public DateTime? RevokedDate { get; set; }
+        public string? RevokedReason { get; set; }
+        public int UsageCount { get; set; }
+    }
+}
