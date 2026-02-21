@@ -7,7 +7,7 @@ namespace Domain.Entities
 {
     public class Gatepass : BaseEntity
     {
-        public Guid RequestId { get; set; }
+        public Guid GatePassRequestId { get; set; }
         public GatepassRequest GatepassRequest { get; set; } = new GatepassRequest();
         public string UniqueCode { get; set; } = string.Empty;
         public string QRCodeImage { get; set; } = string.Empty;
@@ -24,5 +24,7 @@ namespace Domain.Entities
         public DateTime? RevokedDate { get; set; }
         public string? RevokedReason { get; set; }
         public int UsageCount { get; set; }
+
+        public List<CheckInOut> CheckInOuts { get; set; } = new List<CheckInOut>();
     }
 }

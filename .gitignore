@@ -208,6 +208,10 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
+# App settings with sensitive data
+**/appsettings.json
+**/appsettings.*.json
+
 # VS Code files
 .vscode/
 
@@ -226,6 +230,3 @@ Desktop.ini
 # Dotnet tool manifest
 # .config/dotnet-tools.json
 
-# Project-specific
-appsettings.json
-appsettings.Development.json

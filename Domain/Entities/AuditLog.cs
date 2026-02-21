@@ -8,6 +8,7 @@ namespace Domain.Entities
     {
         public DateTime Timestamp { get; set; } = DateTime.UtcNow;
         public Guid? UserID { get; set; }
+        public User User { get; set; } = new User();
         public string Action { get; set; } = string.Empty;
         public string EntityType { get; set; } = string.Empty;
         public Guid? EntityID { get; set; }

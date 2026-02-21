@@ -9,5 +9,6 @@ namespace Domain.Entities
         public string DepartmentName { get; set;  } = string.Empty;
         public string DepartmentCode { get; set; } = string.Empty;
         public string HeadOfDepartment { get; set; } = string.Empty;
+        public List<GatepassRequest> GatepassRequests { get; set; } = new List<GatepassRequest>();
     }
 }

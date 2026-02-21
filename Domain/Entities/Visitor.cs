@@ -21,5 +21,6 @@ namespace Domain.Entities
         public User? BlackListedByUser { get; set; } = new User();
         public DateTime? BlackListedDate { get; set; } 
         public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
+        public List<GatepassRequest> GatepassRequests { get; set; } = new List<GatepassRequest>();
     }
 }

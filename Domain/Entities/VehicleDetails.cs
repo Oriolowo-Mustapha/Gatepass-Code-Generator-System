@@ -8,7 +8,7 @@ namespace Domain.Entities
     public class VehicleDetails : BaseEntity
     {
         public Guid GatePassRequestID { get; set; }
-        public Gatepass Gatepass { get; set; } = new Gatepass();
+        public GatepassRequest GatepassRequest { get; set; } = new GatepassRequest();
         public string PlateNumber { get; set; } = string.Empty;
         public VehicleType VehicleType { get; set; }
         public string VehicleColor { get; set; } = string.Empty;

@@ -24,8 +24,8 @@ namespace Domain.Entities
         public DateTime RequestedDuration { get; set; } 
         public GatepassType GatepassType { get; set; }
 
-        public VehicleDetails? VehicleDetails { get; set; } = new VehicleDetails();
-
+        public Gatepass? Gatepass { get; set; }
+        public VehicleDetails? VehicleDetails { get; set; }
         public ApprovalStatus ApprovalStatus { get; set; } = ApprovalStatus.Pending;
         public Guid? ApproverId { get; set; }
         public User? Approver { get; set;  }

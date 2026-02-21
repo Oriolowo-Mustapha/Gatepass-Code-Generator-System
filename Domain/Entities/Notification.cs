@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Domain.Entities
 {
-    public class Notification
+    public class Notification : BaseEntity
     {
         public Guid UserId { get; set; }
-        public User User { get; set; }
+        public User User { get; set; } = new User();
         public string Title { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
         public bool IsRead { get; set; } = false;
