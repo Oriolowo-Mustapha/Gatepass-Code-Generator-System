@@ -16,22 +16,20 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // DbContext
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
-        // Repositories
         services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IGatepassRepository, GatepassRepository>();
         services.AddScoped<IGatepassRequestRepository, GatepassRequestRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-        // Services
         services.AddScoped<IUniqueCodeGenerator, UniqueCodeGenerator>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<IQRCodeGenerator, QRCodeGeneratorService>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddScoped<ITokenService, TokenService>();
 
         return services;
     }

@@ -14,6 +14,10 @@ public class UnitOfWork : IUnitOfWork
     public IGatepassRepository Gatepasses { get; }
     public IGatepassRequestRepository GatepassRequests { get; }
 
+    public IRoleRepository Roles { get; }
+
+    public IDepartementRepository Departements { get; }
+
     public UnitOfWork(
         ApplicationDbContext context,
         IUserRepository users,
