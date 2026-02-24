@@ -5,8 +5,10 @@ namespace Application.Features.GatepassRequests.Commands.CreateGatepassRequest;
 
 public record CreateGatepassRequestCommand : IRequest<ApiResponse<Guid>>
 {
-    public Guid VisitorId { get; init; }
-    public Guid HostUserId { get; init; }
+    public string VisitorFirstName { get; init; } = string.Empty;
+    public string VisitorLastName { get; init; } = string.Empty;
+    public string VisitorContactNumber { get; init; } = string.Empty;
+    public string VisitorEmail { get; init; } = string.Empty;
     public Guid? DestinationDepartmentId { get; init; }
     public string VisitPurpose { get; init; } = string.Empty;
     public DateTime ValidFrom { get; init; }

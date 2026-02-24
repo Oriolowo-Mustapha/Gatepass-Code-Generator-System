@@ -1,5 +1,6 @@
 using Application.DTOS;
 using Application.Interfaces;
+using Application.Interfaces.Services;
 using Domain.Entities;
 using Domain.Enum;
 using MediatR;
@@ -10,32 +11,61 @@ public class CreateGatepassRequestCommandHandler
     : IRequestHandler<CreateGatepassRequestCommand, ApiResponse<Guid>>
 {
     private readonly IUnitOfWork _unitOfWork;
+    private readonly ICurrentUserService _currentUserService;
 
-    public CreateGatepassRequestCommandHandler(IUnitOfWork unitOfWork)
+    public CreateGatepassRequestCommandHandler(IUnitOfWork unitOfWork, ICurrentUserService currentUserService)
     {
         _unitOfWork = unitOfWork;
+        _currentUserService = currentUserService;
     }
 
     public async Task<ApiResponse<Guid>> Handle(
         CreateGatepassRequestCommand request,
         CancellationToken cancellationToken)
     {
-        var visitorExists = await _unitOfWork.Repository<Visitor>()
-            .ExistsAsync(request.VisitorId, cancellationToken);
+        if (!_currentUserService.IsAuthenticated || !_currentUserService.UserId.HasValue)
+            return ApiResponse<Guid>.Failure("You must be logged in as a host to create a gatepass request.");
 
-        if (!visitorExists)
-            return ApiResponse<Guid>.Failure("Visitor not found.");
+        var hostId = _currentUserService.UserId.Value;
 
         var hostExists = await _unitOfWork.Users
-            .ExistsAsync(request.HostUserId, cancellationToken);
+            .ExistsAsync(hostId, cancellationToken);
 
         if (!hostExists)
             return ApiResponse<Guid>.Failure("Host user not found.");
 
+        // Find or create Visitor
+        var visitor = await _unitOfWork.Repository<Visitor>().FindAsync(
+            v => v.FirstName == request.VisitorFirstName &&
+                 v.LastName == request.VisitorLastName &&
+                 v.ContactNumber == request.VisitorContactNumber &&
+                 v.Email == request.VisitorEmail,
+            cancellationToken
+        );
+        
+        Visitor? existingVisitor = null;
+        if(visitor != null && visitor.Count > 0){
+             existingVisitor = visitor.FirstOrDefault();
+        }
+
+        if (existingVisitor == null)
+        {
+            existingVisitor = new Visitor
+            {
+                FirstName = request.VisitorFirstName,
+                LastName = request.VisitorLastName,
+                ContactNumber = request.VisitorContactNumber,
+                Email = request.VisitorEmail,
+                RegistrationDate = DateTime.UtcNow
+            };
+            await _unitOfWork.Repository<Visitor>().AddAsync(existingVisitor, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+        }
+
         var gatepassRequest = new GatepassRequest
         {
-            VisitorsId = request.VisitorId,
-            HostUserId = request.HostUserId,
+            VisitorsId = existingVisitor.Id,
+            HostUserId = hostId,
             DestinationDepartmentId = request.DestinationDepartmentId,
             VisitPurpose = request.VisitPurpose,
             RequestedDate = request.ValidFrom,

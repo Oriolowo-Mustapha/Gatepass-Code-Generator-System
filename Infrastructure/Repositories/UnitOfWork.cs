@@ -22,12 +22,16 @@ public class UnitOfWork : IUnitOfWork
         ApplicationDbContext context,
         IUserRepository users,
         IGatepassRepository gatepasses,
-        IGatepassRequestRepository gatepassRequests)
+        IGatepassRequestRepository gatepassRequests,
+        IRoleRepository roles,
+        IDepartementRepository departements)
     {
         _context = context;
         Users = users;
         Gatepasses = gatepasses;
         GatepassRequests = gatepassRequests;
+        Roles = roles;
+        Departements = departements;
     }
 
     public IGenericRepository<TEntity> Repository<TEntity>() where TEntity : class

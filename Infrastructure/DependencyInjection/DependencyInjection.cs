@@ -23,6 +23,8 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IGatepassRepository, GatepassRepository>();
         services.AddScoped<IGatepassRequestRepository, GatepassRequestRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IDepartementRepository, DepartmentRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IUniqueCodeGenerator, UniqueCodeGenerator>();
@@ -30,6 +32,9 @@ public static class DependencyInjection
         services.AddSingleton<IQRCodeGenerator, QRCodeGeneratorService>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+        services.AddHttpContextAccessor();
 
         return services;
     }

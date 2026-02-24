@@ -41,9 +41,7 @@ public class GetOverstayReportQueryHandler
                 {
                     GatepassId = gatepass.Id,
                     UniqueCode = gatepass.UniqueCode,
-                    VisitorName = visitor is not null
-                        ? $"{visitor.FirstName} {visitor.LastName}"
-                        : "Unknown",
+                    VisitorName = visitor != null ? $"{visitor.FirstName} {visitor.LastName}" : "Unknown",
                     ValidUntil = gatepass.ValidUntil,
                     CheckInTime = c.CheckInTime,
                     AccessPointName = c.CheckInAccessPoint?.Name ?? "N/A"

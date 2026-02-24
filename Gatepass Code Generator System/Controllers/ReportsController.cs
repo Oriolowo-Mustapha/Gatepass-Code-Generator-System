@@ -1,11 +1,13 @@
 using Application.Features.Reports.Queries.GetDailyVisitorLog;
 using Application.Features.Reports.Queries.GetGatepassStatistics;
 using Application.Features.Reports.Queries.GetOverstayReport;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gatepass_Code_Generator_System.Controllers;
 
 [Route("api/reports")]
+[Authorize]
 public class ReportsController : BaseApiController
 {
     [HttpGet("daily-log")]

@@ -2,11 +2,13 @@ using Application.Features.Organization.Commands.CreateAccessPoint;
 using Application.Features.Organization.Commands.CreateDepartment;
 using Application.Features.Organization.Queries.GetAccessPoints;
 using Application.Features.Organization.Queries.GetDepartments;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gatepass_Code_Generator_System.Controllers;
 
 [Route("api/organization")]
+[Authorize(Roles = "Administrator")]
 public class OrganizationController : BaseApiController
 {
     [HttpGet("departments")]

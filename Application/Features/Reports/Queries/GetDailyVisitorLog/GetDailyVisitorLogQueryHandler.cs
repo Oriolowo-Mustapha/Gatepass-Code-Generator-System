@@ -39,9 +39,7 @@ public class GetDailyVisitorLogQueryHandler
             return new DailyVisitorLogDto
             {
                 CheckInOutId = r.Id,
-                VisitorName = visitor is not null
-                    ? $"{visitor.FirstName} {visitor.LastName}"
-                    : "Unknown",
+                VisitorName = visitor != null ? $"{visitor.FirstName} {visitor.LastName}" : "Unknown",
                 GatepassCode = gatepass?.UniqueCode ?? "N/A",
                 AccessPointName = r.CheckInAccessPoint?.Name ?? "N/A",
                 CheckInTime = r.CheckInTime,

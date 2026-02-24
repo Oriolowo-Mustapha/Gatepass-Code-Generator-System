@@ -1,11 +1,13 @@
 using Application.Features.Security.Commands.CheckInVisitor;
 using Application.Features.Security.Commands.CheckOutVisitor;
 using Application.Features.Security.Queries.VerifyGatepass;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gatepass_Code_Generator_System.Controllers;
 
 [Route("api/security")]
+[Authorize(Roles = "Security")]
 public class SecurityController : BaseApiController
 {
     [HttpPost("verify")]

@@ -9,8 +9,8 @@ namespace Domain.Entities
     {
         public DateTime RequestDate { get; set;  } = DateTime.UtcNow;
 
-        public Guid VisitorsId { get; set; }
-        public Visitor Visitor { get; set; } = new Visitor();
+        public Guid? VisitorsId { get; set; }
+        public Visitor? Visitor { get; set; }
 
         public string VisitPurpose { get; set;  } = string.Empty;
 

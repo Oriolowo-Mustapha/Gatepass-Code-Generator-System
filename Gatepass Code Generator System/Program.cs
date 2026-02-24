@@ -10,7 +10,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
@@ -73,11 +73,13 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
+app.UseMiddleware<Infrastructure.Middleware.ExceptionHandlingMiddleware>();
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var passwordHasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
-    await DataSeeder.SeedDataAsync(context, passwordHasher);
+    await DataSeeder.SeedDataAsync(context, passwordHasher, builder.Configuration);
 }
 
 if (app.Environment.IsDevelopment())

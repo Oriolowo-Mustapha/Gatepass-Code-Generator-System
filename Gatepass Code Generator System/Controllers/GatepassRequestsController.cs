@@ -2,17 +2,26 @@ using Application.Features.GatepassRequests.Commands.ApproveGatepassRequest;
 using Application.Features.GatepassRequests.Commands.CreateGatepassRequest;
 using Application.Features.GatepassRequests.Commands.RejectGatepassRequest;
 using Application.Features.GatepassRequests.Queries.GetPendingRequests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gatepass_Code_Generator_System.Controllers;
 
 [Route("api/gatepassrequests")]
+[Authorize]
 public class GatepassRequestsController : BaseApiController
 {
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateGatepassRequestCommand command)
     {
         var response = await Mediator.Send(command);
+        return !response.Succeeded ? BadRequest(response) : Ok(response);
+    }
+
+    [HttpGet("pending")]
+    public async Task<IActionResult> GetPending()
+    {
+        var response = await Mediator.Send(new GetPendingRequestsQuery());
         return !response.Succeeded ? BadRequest(response) : Ok(response);
     }
 

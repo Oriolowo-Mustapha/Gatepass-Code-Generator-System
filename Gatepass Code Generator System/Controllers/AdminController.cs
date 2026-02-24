@@ -1,11 +1,13 @@
 using Application.Features.Admin.Commands.UpdateSystemSetting;
 using Application.Features.Admin.Queries.GetAuditLogs;
 using Application.Features.Admin.Queries.GetSystemSettings;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gatepass_Code_Generator_System.Controllers;
 
 [Route("api/admin")]
+[Authorize(Roles = "Administrator")]
 public class AdminController : BaseApiController
 {
     [HttpGet("settings")]

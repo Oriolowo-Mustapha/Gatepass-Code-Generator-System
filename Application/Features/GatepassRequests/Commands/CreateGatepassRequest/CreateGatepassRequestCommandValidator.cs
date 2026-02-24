@@ -6,11 +6,21 @@ public class CreateGatepassRequestCommandValidator : AbstractValidator<CreateGat
 {
     public CreateGatepassRequestCommandValidator()
     {
-        RuleFor(x => x.VisitorId)
-            .NotEmpty().WithMessage("Visitor ID is required.");
+        RuleFor(x => x.VisitorFirstName)
+            .NotEmpty().WithMessage("Visitor First Name is required.")
+            .MaximumLength(50).WithMessage("Visitor First Name must not exceed 50 characters.");
 
-        RuleFor(x => x.HostUserId)
-            .NotEmpty().WithMessage("Host User ID is required.");
+        RuleFor(x => x.VisitorLastName)
+            .NotEmpty().WithMessage("Visitor Last Name is required.")
+            .MaximumLength(50).WithMessage("Visitor Last Name must not exceed 50 characters.");
+
+        RuleFor(x => x.VisitorContactNumber)
+            .NotEmpty().WithMessage("Visitor Contact Number is required.")
+            .MaximumLength(20).WithMessage("Visitor Contact Number must not exceed 20 characters.");
+
+        RuleFor(x => x.VisitorEmail)
+            .NotEmpty().WithMessage("Visitor Email is required.")
+            .EmailAddress().WithMessage("A valid email address is required.");
 
         RuleFor(x => x.VisitPurpose)
             .NotEmpty().WithMessage("Visit purpose is required.")

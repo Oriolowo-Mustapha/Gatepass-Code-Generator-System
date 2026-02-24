@@ -65,16 +65,14 @@ public class VerifyGatepassQueryHandler
         }
 
         var visitor = gatepass.GatepassRequest?.Visitor;
+        var visitorName = visitor != null ? $"{visitor.FirstName} {visitor.LastName}" : "Unknown Visitor";
 
         return ApiResponse<GatepassVerificationDto>.Success(
             new GatepassVerificationDto
             {
                 IsValid = true,
                 Message = "Gatepass is valid. Access granted.",
-                VisitorName = visitor is not null
-                    ? $"{visitor.FirstName} {visitor.LastName}"
-                    : null,
-                PhotoUrl = visitor?.PhotoUrl
+                VisitorName = visitorName
             });
     }
 }

@@ -17,6 +17,7 @@ public class GatepassRequestRepository : GenericRepository<GatepassRequest>, IGa
         return await _dbSet
             .Where(gr => gr.HostUserId == hostId && gr.ApprovalStatus == ApprovalStatus.Pending)
             .Include(gr => gr.Visitor)
+            .OrderByDescending(gr => gr.RequestDate)
             .ToListAsync(cancellationToken);
     }
 }
