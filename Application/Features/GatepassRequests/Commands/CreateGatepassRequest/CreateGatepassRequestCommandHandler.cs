@@ -153,6 +153,6 @@ public class CreateGatepassRequestCommandHandler
             _logger.LogError(ex, "Failed to send QR code email to {Email} for gatepass {Code}. Gatepass was created but email delivery failed.", visitor.Email, uniqueCode);
         }
 
-        return ApiResponse<string>.Success(qrCodeBase64, "Visitor invited and Gatepass generated successfully.");
+        return ApiResponse<string>.Success(uniqueCode, "Gatepass created successfully. The QR code has been sent to the visitor's email.");
     }
 }

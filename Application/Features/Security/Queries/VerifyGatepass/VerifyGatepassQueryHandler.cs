@@ -72,7 +72,8 @@ public class VerifyGatepassQueryHandler
             {
                 IsValid = true,
                 Message = "Gatepass is valid. Access granted.",
-                VisitorName = visitorName
-            });
+                VisitorName = visitorName,
+                Email = visitor?.Email, 
+             });
     }
 }
