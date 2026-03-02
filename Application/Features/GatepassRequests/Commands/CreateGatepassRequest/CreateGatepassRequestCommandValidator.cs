@@ -14,9 +14,9 @@ public class CreateGatepassRequestCommandValidator : AbstractValidator<CreateGat
             .NotEmpty().WithMessage("Visitor Last Name is required.")
             .MaximumLength(50).WithMessage("Visitor Last Name must not exceed 50 characters.");
 
-        RuleFor(x => x.VisitorContactNumber)
-            .NotEmpty().WithMessage("Visitor Contact Number is required.")
-            .MaximumLength(20).WithMessage("Visitor Contact Number must not exceed 20 characters.");
+        RuleFor(x => x.VisitorPhoneNumber)
+            .NotEmpty().WithMessage("Visitor Phone Number is required.")
+            .MaximumLength(20).WithMessage("Visitor Phone Number must not exceed 20 characters.");
 
         RuleFor(x => x.VisitorEmail)
             .NotEmpty().WithMessage("Visitor Email is required.")
@@ -33,5 +33,21 @@ public class CreateGatepassRequestCommandValidator : AbstractValidator<CreateGat
         RuleFor(x => x.ValidUntil)
             .GreaterThan(x => x.ValidFrom)
             .WithMessage("Valid Until must be after Valid From.");
+            
+        RuleFor(x => x.DestinationDepartmentCode)
+            .NotEmpty().WithMessage("Destination Department is required.");
+
+        RuleFor(x => x.Vehicle)
+            .SetValidator(new VehicleDetailsValidator()!)
+            .When(x => x.Vehicle != null);
+    }
+}
+
+public class VehicleDetailsValidator : AbstractValidator<VehicleDetailsRequest>
+{
+    public VehicleDetailsValidator()
+    {
+        RuleFor(x => x.PlateNumber)
+            .MaximumLength(20).WithMessage("Plate number must not exceed 20 characters.");
     }
 }

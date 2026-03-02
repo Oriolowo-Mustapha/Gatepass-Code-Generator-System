@@ -14,13 +14,13 @@ namespace Infrastructure.Repositories
         {
         }
 
-        public async Task<Guid> GetDeptIdBydeptNameAsync(string deptName, CancellationToken cancellationToken = default)
+        public async Task<Guid> GetDeptIdBydeptCodeAsync(string deptCode, CancellationToken cancellationToken = default)
         {
-            var dept = await _dbSet.FirstOrDefaultAsync(d => d.DepartmentName == deptName, cancellationToken);
+            var dept = await _dbSet.FirstOrDefaultAsync(d => d.DepartmentCode.ToUpper() == deptCode.ToUpper(), cancellationToken);
 
             if (dept == null) { 
 
-                throw new KeyNotFoundException($"Department with name '{deptName}' was not foumd");
+                throw new KeyNotFoundException($"Department with name '{deptCode}' was not foumd");
             }
             return dept.Id;
         }

@@ -8,7 +8,7 @@ namespace Domain.Entities
     public class Gatepass : BaseEntity
     {
         public Guid GatePassRequestId { get; set; }
-        public GatepassRequest GatepassRequest { get; set; } = new GatepassRequest();
+        public GatepassRequest GatepassRequest { get; set; } = null!;
         public string UniqueCode { get; set; } = string.Empty;
         public string QRCodeImage { get; set; } = string.Empty;
         public DateTime IssueDate { get; set; }

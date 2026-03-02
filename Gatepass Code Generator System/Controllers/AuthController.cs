@@ -1,6 +1,8 @@
+using Application.Features.Auth.Commands.ForgotPassword;
 using Application.Features.Auth.Commands.Login;
 using Application.Features.Auth.Commands.RefreshToken;
 using Application.Features.Auth.Commands.RegisterUser;
+using Application.Features.Auth.Commands.ResetPassword;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gatepass_Code_Generator_System.Controllers;
@@ -24,6 +26,20 @@ public class AuthController : BaseApiController
 
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenCommand command)
+    {
+        var response = await Mediator.Send(command);
+        return !response.Succeeded ? BadRequest(response) : Ok(response);
+    }
+
+    [HttpPost("forgot-password")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand command)
+    {
+        var response = await Mediator.Send(command);
+        return Ok(response);
+    }
+
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand command)
     {
         var response = await Mediator.Send(command);
         return !response.Succeeded ? BadRequest(response) : Ok(response);

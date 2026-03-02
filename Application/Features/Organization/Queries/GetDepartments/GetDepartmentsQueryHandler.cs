@@ -26,8 +26,7 @@ public class GetDepartmentsQueryHandler
         {
             Id = d.Id,
             DepartmentName = d.DepartmentName,
-            DepartmentCode = d.DepartmentCode,
-            HeadOfDepartment = d.HeadOfDepartment
+            DepartmentCode = d.DepartmentCode
         }).ToList();
 
         return ApiResponse<List<DepartmentDto>>.Success(result);

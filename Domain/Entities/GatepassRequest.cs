@@ -18,7 +18,7 @@ namespace Domain.Entities
         public Department? DestinationDepartment { get; set; } 
 
         public  Guid HostUserId { get; set; }
-        public User HostUser { get; set; } = new User();
+        public User HostUser { get; set; } = null!;
 
         public DateTime RequestedDate { get; set; }
         public DateTime RequestedDuration { get; set; } 

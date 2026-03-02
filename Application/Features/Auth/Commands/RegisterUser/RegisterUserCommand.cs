@@ -15,6 +15,6 @@ namespace Application.Features.Auth.Commands.RegisterUser
         public string LastName { get; init;  } = string.Empty;
         public string PhoneNumber { get; init; } = string.Empty;
         public string RoleName { get; init;  } = string.Empty;
-        public string? DepartmentName { get; init; } = string.Empty;
+        public string? DepartmentCode { get; init; } = string.Empty;
     }
 }

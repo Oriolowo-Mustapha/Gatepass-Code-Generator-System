@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260223113721_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260227132512_UpdateVehicleDetailsAndCleanUp")]
+    partial class UpdateVehicleDetailsAndCleanUp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -159,10 +159,6 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("HeadOfDepartment")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
@@ -272,7 +268,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("VisitorsId")
+                    b.Property<Guid?>("VisitorsId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -437,27 +433,11 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("DriverName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<Guid>("GatePassRequestID")
                         .HasColumnType("uuid");
 
                     b.Property<string>("PlateNumber")
-                        .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("VehicleColor")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("VehicleModel")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("VehicleType")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -498,22 +478,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("IdNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("IdType")
-                        .HasColumnType("integer");
-
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Organization")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhotoUrl")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -617,8 +582,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Visitor", "Visitor")
                         .WithMany("GatepassRequests")
                         .HasForeignKey("VisitorsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Approver");
 

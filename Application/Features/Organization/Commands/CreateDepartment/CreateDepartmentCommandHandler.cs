@@ -22,8 +22,7 @@ public class CreateDepartmentCommandHandler
         var department = new Department
         {
             DepartmentName = request.DepartmentName,
-            DepartmentCode = request.DepartmentCode,
-            HeadOfDepartment = request.HeadOfDepartment
+            DepartmentCode = request.DepartmentCode
         };
 
         await _unitOfWork.Repository<Department>().AddAsync(department, cancellationToken);

@@ -30,9 +30,7 @@ public class GetGatepassStatisticsQueryHandler
 
         var dto = new GatepassStatisticsDto
         {
-            TotalPending = allRequests.Count(r => r.ApprovalStatus == ApprovalStatus.Pending),
             TotalApproved = allRequests.Count(r => r.ApprovalStatus == ApprovalStatus.Approved),
-            TotalRejected = allRequests.Count(r => r.ApprovalStatus == ApprovalStatus.Rejected),
             TotalVisitorsToday = todayCheckIns.Count
         };
 

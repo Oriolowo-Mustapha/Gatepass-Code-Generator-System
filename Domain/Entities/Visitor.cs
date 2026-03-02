@@ -13,7 +13,7 @@ namespace Domain.Entities
         public bool BlackListStatus { get; set; } = false;  
         public string BlackListReason { get; set; } = string.Empty;
         public Guid? BlackListedBy { get; set; }
-        public User? BlackListedByUser { get; set; } = new User();
+        public User? BlackListedByUser { get; set; }
         public DateTime? BlackListedDate { get; set; } 
         public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
         public List<GatepassRequest> GatepassRequests { get; set; } = new List<GatepassRequest>();

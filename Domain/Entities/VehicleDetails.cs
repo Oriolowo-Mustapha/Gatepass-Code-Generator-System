@@ -1,18 +1,11 @@
-﻿using Domain.Enum;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
 
 namespace Domain.Entities
 {
     public class VehicleDetails : BaseEntity
     {
         public Guid GatePassRequestID { get; set; }
-        public GatepassRequest GatepassRequest { get; set; } = new GatepassRequest();
-        public string PlateNumber { get; set; } = string.Empty;
-        public VehicleType VehicleType { get; set; }
-        public string VehicleColor { get; set; } = string.Empty;
-        public string VehicleModel { get; set; } = string.Empty;
-        public string DriverName { get; set; } = string.Empty;
+        public GatepassRequest GatepassRequest { get; set; } = null!;
+        public string? PlateNumber { get; set; }
     }
 }

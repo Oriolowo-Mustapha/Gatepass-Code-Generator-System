@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class UpdateVehicleDetailsAndCleanUp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,8 +31,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     DepartmentName = table.Column<string>(type: "text", nullable: false),
-                    DepartmentCode = table.Column<string>(type: "text", nullable: false),
-                    HeadOfDepartment = table.Column<string>(type: "text", nullable: false)
+                    DepartmentCode = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -163,10 +162,6 @@ namespace Infrastructure.Migrations
                     LastName = table.Column<string>(type: "text", nullable: false),
                     ContactNumber = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    Organization = table.Column<string>(type: "text", nullable: false),
-                    PhotoUrl = table.Column<string>(type: "text", nullable: false),
-                    IdType = table.Column<int>(type: "integer", nullable: false),
-                    IdNumber = table.Column<string>(type: "text", nullable: false),
                     BlackListStatus = table.Column<bool>(type: "boolean", nullable: false),
                     BlackListReason = table.Column<string>(type: "text", nullable: false),
                     BlackListedBy = table.Column<Guid>(type: "uuid", nullable: true),
@@ -190,7 +185,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     RequestDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    VisitorsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    VisitorsId = table.Column<Guid>(type: "uuid", nullable: true),
                     VisitPurpose = table.Column<string>(type: "text", nullable: false),
                     DestinationDepartmentId = table.Column<Guid>(type: "uuid", nullable: true),
                     HostUserId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -274,11 +269,7 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     GatePassRequestID = table.Column<Guid>(type: "uuid", nullable: false),
-                    PlateNumber = table.Column<string>(type: "text", nullable: false),
-                    VehicleType = table.Column<int>(type: "integer", nullable: false),
-                    VehicleColor = table.Column<string>(type: "text", nullable: false),
-                    VehicleModel = table.Column<string>(type: "text", nullable: false),
-                    DriverName = table.Column<string>(type: "text", nullable: false)
+                    PlateNumber = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
