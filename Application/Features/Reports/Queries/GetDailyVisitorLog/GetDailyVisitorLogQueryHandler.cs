@@ -23,29 +23,35 @@ public class GetDailyVisitorLogQueryHandler
         var dayEnd = dayStart.AddDays(1);
 
         var records = await _unitOfWork.Repository<CheckInOut>()
-            .FindAsync(c => c.CheckInTime >= dayStart && c.CheckInTime < dayEnd, cancellationToken);
-
-        var gatepassIds = records.Select(r => r.GatePassId).Distinct().ToList();
-        var gatepasses = await _unitOfWork.Gatepasses
-            .FindAsync(g => gatepassIds.Contains(g.Id), cancellationToken);
-
-        var gatepassLookup = gatepasses.ToDictionary(g => g.Id);
+            .FindAsync(
+                c => c.CheckInTime >= dayStart && c.CheckInTime < dayEnd,
+                cancellationToken,
+                "Gatepass.GatepassRequest.Visitor",
+                "Gatepass.GatepassRequest.DestinationDepartment",
+                "CheckInAccessPoint",
+                "CheckInPersonnel");
 
         var result = records.Select(r =>
         {
-            gatepassLookup.TryGetValue(r.GatePassId, out var gatepass);
-            var visitor = gatepass?.GatepassRequest?.Visitor;
+            var gatepass = r.Gatepass;
+            var gatepassRequest = gatepass?.GatepassRequest;
+            var visitor = gatepassRequest?.Visitor;
+            var department = gatepassRequest?.DestinationDepartment;
 
             return new DailyVisitorLogDto
             {
                 CheckInOutId = r.Id,
                 VisitorName = visitor != null ? $"{visitor.FirstName} {visitor.LastName}" : "Unknown",
+                Email = visitor?.Email ?? "—",
+                Department = department?.DepartmentName ?? "—",
+                Purpose = gatepassRequest?.VisitPurpose ?? "—",
                 GatepassCode = gatepass?.UniqueCode ?? "N/A",
                 AccessPointName = r.CheckInAccessPoint?.Name ?? "N/A",
                 CheckInTime = r.CheckInTime,
                 CheckOutTime = r.CheckOutTime,
                 SecurityPersonnel = r.CheckInPersonnel?.UserName ?? "N/A",
-                IsOverstay = r.IsOverstay
+                IsOverstay = r.IsOverstay,
+                Status = r.CheckOutTime.HasValue ? "Checked Out" : "On-site"
             };
         }).ToList();
 

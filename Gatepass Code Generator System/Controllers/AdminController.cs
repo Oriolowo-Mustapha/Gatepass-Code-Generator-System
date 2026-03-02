@@ -1,3 +1,4 @@
+using Application.Features.Admin.Commands.CreateUser;
 using Application.Features.Admin.Commands.UpdateSystemSetting;
 using Application.Features.Admin.Queries.GetAuditLogs;
 using Application.Features.Admin.Queries.GetSystemSettings;
@@ -19,6 +20,13 @@ public class AdminController : BaseApiController
 
     [HttpPut("settings")]
     public async Task<IActionResult> UpdateSetting([FromBody] UpdateSystemSettingCommand command)
+    {
+        var response = await Mediator.Send(command);
+        return !response.Succeeded ? BadRequest(response) : Ok(response);
+    }
+
+    [HttpPost("users")]
+    public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var response = await Mediator.Send(command);
         return !response.Succeeded ? BadRequest(response) : Ok(response);

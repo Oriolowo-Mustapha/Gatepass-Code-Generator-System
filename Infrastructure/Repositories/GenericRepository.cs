@@ -31,6 +31,18 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _dbSet.Where(predicate).ToListAsync(cancellationToken);
     }
 
+    public async Task<IReadOnlyList<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default, params string[] includes)
+    {
+        IQueryable<T> query = _dbSet;
+
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+
+        return await query.Where(predicate).ToListAsync(cancellationToken);
+    }
+
     public async Task<bool> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await _dbSet.FindAsync([id], cancellationToken);
