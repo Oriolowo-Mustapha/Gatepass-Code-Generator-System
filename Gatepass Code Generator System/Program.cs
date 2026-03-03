@@ -119,7 +119,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend", policy =>
     {
         var origins = builder.Configuration.GetSection("AllowedOrigins").Get<string[]>()
-            ?? ["http://127.0.0.1:5500", "http://localhost:5500", "https://gatepass-code-generator-system-fron.vercel.app/"];
+            ?? ["http://127.0.0.1:5500", "http://localhost:5500", "https://gatepass-code-generator-system-fron.vercel.app"];
         policy.WithOrigins(origins)
               .AllowAnyHeader()
               .AllowAnyMethod();
