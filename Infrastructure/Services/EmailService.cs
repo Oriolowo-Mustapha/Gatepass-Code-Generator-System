@@ -55,7 +55,7 @@ public class EmailService : IEmailService
         if (string.IsNullOrWhiteSpace(senderEmail))
         {
             _logger.LogError("EmailSettings:SenderEmail is not configured");
-            throw new InvalidOperationException("Email sender is not configured. Check EmailSettings:SenderEmail in appsettings.");
+            throw new InvalidOperationException("Email sender is not configured. Set EmailSettings__SenderEmail environment variable or check .env file.");
         }
 
         _logger.LogDebug("Building email message from {Sender} to {Recipient}", senderEmail, to);
@@ -78,13 +78,13 @@ public class EmailService : IEmailService
         if (string.IsNullOrWhiteSpace(smtpServer) || string.IsNullOrWhiteSpace(portString))
         {
             _logger.LogError("SMTP server or port is not configured. SmtpServer='{SmtpServer}', Port='{Port}'", smtpServer, portString);
-            throw new InvalidOperationException("SMTP server settings are not configured. Check EmailSettings in appsettings.");
+            throw new InvalidOperationException("SMTP server settings are not configured. Set EmailSettings__SmtpServer and EmailSettings__Port environment variables or check .env file.");
         }
 
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
         {
             _logger.LogError("SMTP credentials are not configured");
-            throw new InvalidOperationException("SMTP credentials are not configured. Check EmailSettings:Username and Password in appsettings.");
+            throw new InvalidOperationException("SMTP credentials are not configured. Set EmailSettings__Username and EmailSettings__Password environment variables or check .env file.");
         }
 
         var port = int.Parse(portString);
