@@ -34,7 +34,10 @@ public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, A
             throw new UnauthorizedException("Invalid token");
         }
 
-        if (!string.Equals(user.RefreshToken, request.RefreshToken?.Trim(), StringComparison.Ordinal))
+        if (!string.Equals(
+                user.RefreshToken,
+                request.RefreshToken?.Trim()?.Replace(' ', '+'),
+                StringComparison.Ordinal))
         {
             _logger.LogWarning("Refresh token mismatch for user {UserId}. DB token length: {DbLen}, Request token length: {ReqLen}",
                 user.Id, user.RefreshToken?.Length, request.RefreshToken?.Length);
