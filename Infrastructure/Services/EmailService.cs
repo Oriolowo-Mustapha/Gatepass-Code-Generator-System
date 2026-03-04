@@ -1,19 +1,20 @@
+using System.Net.Http.Json;
+using System.Text.Json.Serialization;
 using Application.Interfaces.Services;
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using MimeKit;
 
 namespace Infrastructure.Services;
 
 public class EmailService : IEmailService
 {
+    private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;
     private readonly ILogger<EmailService> _logger;
 
-    public EmailService(IConfiguration configuration, ILogger<EmailService> logger)
+    public EmailService(HttpClient httpClient, IConfiguration configuration, ILogger<EmailService> logger)
     {
+        _httpClient = httpClient;
         _configuration = configuration;
         _logger = logger;
     }
@@ -21,33 +22,29 @@ public class EmailService : IEmailService
     public async Task SendEmailAsync(string to, string subject, string htmlBody, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Preparing to send email to {Recipient} with subject '{Subject}'", to, subject);
-        var message = CreateMessage(to, subject, htmlBody);
-        await SendAsync(message, cancellationToken);
+
+        var payload = BuildPayload(to, subject, htmlBody);
+        await SendViaBrevoAsync(payload, to, cancellationToken);
     }
 
     public async Task SendEmailWithAttachmentAsync(string to, string subject, string htmlBody, string attachmentName, byte[] attachmentData, string contentType, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Preparing to send email with attachment '{Attachment}' ({Size} bytes) to {Recipient}", attachmentName, attachmentData.Length, to);
-        var message = CreateMessage(to, subject, htmlBody);
 
-        var body = message.Body;
-        var multipart = new Multipart("mixed");
-        multipart.Add(body);
+        var payload = BuildPayload(to, subject, htmlBody);
+        payload.Attachment =
+        [
+            new BrevoAttachment
+            {
+                Name = attachmentName,
+                Content = Convert.ToBase64String(attachmentData)
+            }
+        ];
 
-        var attachment = new MimePart(contentType)
-        {
-            Content = new MimeContent(new MemoryStream(attachmentData)),
-            ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
-            ContentTransferEncoding = ContentEncoding.Base64,
-            FileName = attachmentName
-        };
-        multipart.Add(attachment);
-
-        message.Body = multipart;
-        await SendAsync(message, cancellationToken);
+        await SendViaBrevoAsync(payload, to, cancellationToken);
     }
 
-    private MimeMessage CreateMessage(string to, string subject, string htmlBody)
+    private BrevoEmailPayload BuildPayload(string to, string subject, string htmlBody)
     {
         var senderName = _configuration["EmailSettings:SenderName"];
         var senderEmail = _configuration["EmailSettings:SenderEmail"];
@@ -55,93 +52,81 @@ public class EmailService : IEmailService
         if (string.IsNullOrWhiteSpace(senderEmail))
         {
             _logger.LogError("EmailSettings:SenderEmail is not configured");
-            throw new InvalidOperationException("Email sender is not configured. Set EmailSettings__SenderEmail environment variable or check .env file.");
+            throw new InvalidOperationException("Email sender is not configured. Set EmailSettings__SenderEmail environment variable.");
         }
 
-        _logger.LogDebug("Building email message from {Sender} to {Recipient}", senderEmail, to);
-
-        var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(senderName, senderEmail));
-        message.To.Add(MailboxAddress.Parse(to));
-        message.Subject = subject;
-        message.Body = new TextPart("html") { Text = htmlBody };
-        return message;
+        return new BrevoEmailPayload
+        {
+            Sender = new BrevoContact { Name = senderName ?? "Gatepass System", Email = senderEmail },
+            To = [new BrevoContact { Email = to }],
+            Subject = subject,
+            HtmlContent = htmlBody
+        };
     }
 
-    private async Task SendAsync(MimeMessage message, CancellationToken cancellationToken)
+    private async Task SendViaBrevoAsync(BrevoEmailPayload payload, string recipient, CancellationToken cancellationToken)
     {
-        var smtpServer = _configuration["EmailSettings:SmtpServer"];
-        var portString = _configuration["EmailSettings:Port"];
-        var username = _configuration["EmailSettings:Username"];
-        var password = _configuration["EmailSettings:Password"];
+        var apiKey = _configuration["EmailSettings:ApiKey"];
 
-        if (string.IsNullOrWhiteSpace(smtpServer) || string.IsNullOrWhiteSpace(portString))
+        if (string.IsNullOrWhiteSpace(apiKey))
         {
-            _logger.LogError("SMTP server or port is not configured. SmtpServer='{SmtpServer}', Port='{Port}'", smtpServer, portString);
-            throw new InvalidOperationException("SMTP server settings are not configured. Set EmailSettings__SmtpServer and EmailSettings__Port environment variables or check .env file.");
+            _logger.LogError("EmailSettings:ApiKey is not configured");
+            throw new InvalidOperationException("Brevo API key is not configured. Set EmailSettings__ApiKey environment variable.");
         }
 
-        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
-        {
-            _logger.LogError("SMTP credentials are not configured");
-            throw new InvalidOperationException("SMTP credentials are not configured. Set EmailSettings__Username and EmailSettings__Password environment variables or check .env file.");
-        }
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://api.brevo.com/v3/smtp/email");
+        request.Headers.Add("api-key", apiKey);
+        request.Content = JsonContent.Create(payload);
 
-        var port = int.Parse(portString);
-        var recipient = message.To.ToString();
+        var response = await _httpClient.SendAsync(request, cancellationToken);
 
-        using var client = new SmtpClient();
-        client.Timeout = 30000;
-        try
+        if (response.IsSuccessStatusCode)
         {
-            _logger.LogDebug("Connecting to SMTP server {SmtpServer}:{Port}", smtpServer, port);
-            var socketOptions = port switch
-            {
-                465 => SecureSocketOptions.SslOnConnect,
-                587 => SecureSocketOptions.StartTls,
-                _ => SecureSocketOptions.Auto
-            };
-            await client.ConnectAsync(smtpServer, port, socketOptions, cancellationToken);
-            _logger.LogDebug("Connected to SMTP server successfully");
+            _logger.LogInformation("Email sent successfully to {Recipient} via Brevo", recipient);
+        }
+        else
+        {
+            var body = await response.Content.ReadAsStringAsync(cancellationToken);
+            _logger.LogError("Brevo API returned {StatusCode} for {Recipient}: {Body}", (int)response.StatusCode, recipient, body);
+            throw new InvalidOperationException($"Brevo API error ({(int)response.StatusCode}): {body}");
+        }
+    }
 
-            _logger.LogDebug("Authenticating with SMTP server as {Username}", username);
-            await client.AuthenticateAsync(username, password, cancellationToken);
-            _logger.LogDebug("SMTP authentication successful");
+    private sealed class BrevoEmailPayload
+    {
+        [JsonPropertyName("sender")]
+        public BrevoContact Sender { get; set; } = new();
 
-            await client.SendAsync(message, cancellationToken);
-            _logger.LogInformation("Email sent successfully to {Recipient}", recipient);
+        [JsonPropertyName("to")]
+        public List<BrevoContact> To { get; set; } = [];
 
-            await client.DisconnectAsync(true, cancellationToken);
-        }
-        catch (AuthenticationException ex)
-        {
-            _logger.LogError(ex, "SMTP authentication failed for user {Username} on {SmtpServer}:{Port}", username, smtpServer, port);
-            throw;
-        }
-        catch (SslHandshakeException ex)
-        {
-            _logger.LogError(ex, "SSL/TLS handshake failed with {SmtpServer}:{Port}", smtpServer, port);
-            throw;
-        }
-        catch (SmtpCommandException ex)
-        {
-            _logger.LogError(ex, "SMTP command error while sending to {Recipient}. StatusCode={StatusCode}", recipient, ex.StatusCode);
-            throw;
-        }
-        catch (SmtpProtocolException ex)
-        {
-            _logger.LogError(ex, "SMTP protocol error while communicating with {SmtpServer}:{Port}", smtpServer, port);
-            throw;
-        }
-        catch (OperationCanceledException)
-        {
-            _logger.LogWarning("Email send to {Recipient} was cancelled", recipient);
-            throw;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Unexpected error sending email to {Recipient}", recipient);
-            throw;
-        }
+        [JsonPropertyName("subject")]
+        public string Subject { get; set; } = string.Empty;
+
+        [JsonPropertyName("htmlContent")]
+        public string HtmlContent { get; set; } = string.Empty;
+
+        [JsonPropertyName("attachment")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public List<BrevoAttachment>? Attachment { get; set; }
+    }
+
+    private sealed class BrevoContact
+    {
+        [JsonPropertyName("name")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public string? Name { get; set; }
+
+        [JsonPropertyName("email")]
+        public string Email { get; set; } = string.Empty;
+    }
+
+    private sealed class BrevoAttachment
+    {
+        [JsonPropertyName("name")]
+        public string Name { get; set; } = string.Empty;
+
+        [JsonPropertyName("content")]
+        public string Content { get; set; } = string.Empty;
     }
 }
