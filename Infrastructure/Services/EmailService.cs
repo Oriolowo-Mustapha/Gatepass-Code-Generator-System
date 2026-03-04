@@ -95,7 +95,13 @@ public class EmailService : IEmailService
         try
         {
             _logger.LogDebug("Connecting to SMTP server {SmtpServer}:{Port}", smtpServer, port);
-            await client.ConnectAsync(smtpServer, port, SecureSocketOptions.Auto, cancellationToken);
+            var socketOptions = port switch
+            {
+                465 => SecureSocketOptions.SslOnConnect,
+                587 => SecureSocketOptions.StartTls,
+                _ => SecureSocketOptions.Auto
+            };
+            await client.ConnectAsync(smtpServer, port, socketOptions, cancellationToken);
             _logger.LogDebug("Connected to SMTP server successfully");
 
             _logger.LogDebug("Authenticating with SMTP server as {Username}", username);

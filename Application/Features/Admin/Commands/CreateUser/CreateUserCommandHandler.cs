@@ -84,10 +84,16 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, ApiRe
 
         _logger.LogInformation("User created successfully: {UserId} ({Email})", user.Id, user.Email);
 
-        var emailBody = BuildWelcomeEmail(request.FirstName, request.LastName, request.Email, rawPassword, request.RoleName, permissions);
-        await _emailService.SendEmailAsync(request.Email, "Your Gatepass System Account Has Been Created", emailBody, cancellationToken);
-
-        _logger.LogInformation("Credentials email sent to {Email}", request.Email);
+        try
+        {
+            var emailBody = BuildWelcomeEmail(request.FirstName, request.LastName, request.Email, rawPassword, request.RoleName, permissions);
+            await _emailService.SendEmailAsync(request.Email, "Your Gatepass System Account Has Been Created", emailBody, cancellationToken);
+            _logger.LogInformation("Credentials email sent to {Email}", request.Email);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send welcome email to {Email}. User was created successfully but email delivery failed.", request.Email);
+        }
 
         return ApiResponse<Guid>.Success(user.Id, "User Created Successfully");
     }

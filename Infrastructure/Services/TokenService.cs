@@ -46,7 +46,7 @@ public class TokenService : ITokenService
         var randomNumber = new byte[64];
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(randomNumber);
-        return Convert.ToBase64String(randomNumber);
+        return Convert.ToHexString(randomNumber);
     }
 
     public Guid? GetUserIdFromExpiredToken(string token)
