@@ -13,6 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Load .env file if present (for local dev and Render deployment)
 var envPath = Path.Combine(Directory.GetCurrentDirectory(), ".env");
+if (!File.Exists(envPath))
+{
+    envPath = Path.Combine(Directory.GetCurrentDirectory(), "..", ".env");
+}
+
 if (File.Exists(envPath))
 {
     foreach (var line in File.ReadAllLines(envPath))
@@ -30,6 +35,7 @@ if (File.Exists(envPath))
         Environment.SetEnvironmentVariable(key, value);
     }
 }
+builder.Configuration.AddEnvironmentVariables();
 
 var port = Environment.GetEnvironmentVariable("PORT");
 if (!string.IsNullOrEmpty(port))
