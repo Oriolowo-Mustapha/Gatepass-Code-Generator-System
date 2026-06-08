@@ -1,6 +1,7 @@
 using System.Text;
 using Application.Extensions;
 using Application.Interfaces.Services;
+using Infrastructure.Configuration;
 using Infrastructure.Data;
 using Infrastructure.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -43,15 +44,8 @@ if (!string.IsNullOrEmpty(port))
     builder.WebHost.UseUrls($"http://+:{port}");
 }
 
-var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");
-if (!string.IsNullOrEmpty(databaseUrl))
-{
-    var uri = new Uri(databaseUrl);
-    var userInfo = uri.UserInfo.Split(':');
-    var dbPort = uri.Port > 0 ? uri.Port : 5432;
-    var connectionString = $"Host={uri.Host};Port={dbPort};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
-    builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
-}
+var connectionString = ConnectionStringResolver.Resolve(builder.Configuration);
+builder.Configuration["ConnectionStrings:DefaultConnection"] = connectionString;
 
 
 builder.Services.Configure<ForwardedHeadersOptions>(options =>
